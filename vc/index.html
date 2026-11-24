@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Видеозвонок</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: #0f1418; color: #e8edf2;
+    font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { width: 100%; max-width: 420px; padding: 28px 22px; }
+  .mark {
+    width: 64px; height: 64px; border-radius: 50%; background: #1e8e5a;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 22px;
+  }
+  h1 { font-size: 26px; line-height: 1.2; margin: 0 0 10px; text-wrap: balance; }
+  p { margin: 0 0 22px; color: #a9b4bf; }
+  a.btn {
+    display: block; text-align: center; text-decoration: none; font-weight: 600;
+    padding: 16px 18px; border-radius: 14px; margin-bottom: 12px;
+  }
+  a.primary { background: #1e8e5a; color: #fff; }
+  a.secondary { background: #1c242b; color: #e8edf2; border: 1px solid #2c3842; }
+  a.btn:focus-visible { outline: 3px solid #7fd3aa; outline-offset: 2px; }
+  ol { margin: 0 0 22px; padding-left: 22px; color: #a9b4bf; }
+  li { margin-bottom: 6px; }
+  .note { font-size: 14px; color: #7d8a96; margin-top: 18px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark" aria-hidden="true">
+    <svg width="34" height="34" viewBox="0 0 48 48"><path fill="#fff" d="M12 16h16a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V19a3 3 0 0 1 3-3z"/><path fill="#fff" d="M32 22l7-5v14l-7-5z"/></svg>
+  </div>
+
+  <div id="invite" hidden>
+    <h1>Вас зовут в видеозвонок</h1>
+    <p>Откройте приглашение в приложении «Видеозвонок». Звонок начнётся, как только оба войдут в комнату.</p>
+    <a class="btn primary" id="open" href="#">Открыть в приложении</a>
+    <a class="btn secondary" href="VideoCall.apk">Скачать приложение (Android)</a>
+    <p class="note">Если приложение ещё не установлено: скачайте его, установите, затем вернитесь к сообщению и снова нажмите на ссылку.</p>
+  </div>
+
+  <div id="plain" hidden>
+    <h1>Видеозвонок</h1>
+    <p>Приложение для видеозвонков на двоих. Видео и звук идут напрямую между телефонами.</p>
+    <a class="btn primary" href="VideoCall.apk">Скачать приложение (Android)</a>
+    <ol>
+      <li>Скачайте и установите файл, разрешив установку из этого источника.</li>
+      <li>Один из вас создаёт ссылку на комнату и отправляет её второму.</li>
+      <li>Оба входят в комнату — звонок начинается сам.</li>
+    </ol>
+  </div>
+</main>
+<script>
+  var code = (location.hash || "").replace(/^#/, "");
+  if (/^[a-z0-9]{16,64}$/.test(code)) {
+    document.getElementById("open").href =
+      "intent://room/" + code + "#Intent;scheme=videocall;package=ru.jip.p2pcall;end";
+    document.getElementById("invite").hidden = false;
+  } else {
+    document.getElementById("plain").hidden = false;
+  }
+</script>
+</body>
+</html>
